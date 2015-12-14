@@ -1,13 +1,14 @@
+/*
 
-
-    *RSA CRYPTOGRAPHIC ALGORITHM*
+    RSA CRYPTOGRAPHIC ALGORITHM
     
-    A Project by *SYED MOHAMMAD IBRAHIM*
+    A Project by SYED MOHAMMAD IBRAHIM
     
     START DATE: 20/NOV/2015
     
     Any suggestions and contributions will be appriciated
-    
+
+*/
 How to run the cipher?
 
 If you don't have python installed, go to *https://www.python.org/downloads/* and download Python 3.x (x for the latest Python 3 version)for your Operating System.
