@@ -3,7 +3,7 @@
 '''
 
 #import the necessary files
-import sys, ReadFromFile
+import sys, pickle, ReadFromFile
 
 DEFAULT = 128               #default block size
 BYTE_SIZE = 256             #One byte contains 256 values according to ASCII
@@ -53,10 +53,10 @@ def Decrypt(filename, keyFile):
 
     #open the encrypted message file and read the data into the buffer
     try:
-        with open(filename, 'r') as data:
-            content = data.read()
-    except IOError as err:
-        print ("File Error: " + str(err))
+        with open(filename, 'rb') as data:
+            content = pickle.load(data)
+    except pickle.PickleError as pk:
+        print ("File Error: " + str(pk))
         sys.exit()
 
     #split the data from content buffer
@@ -77,9 +77,9 @@ def Decrypt(filename, keyFile):
 
     #write the decrypted message to a file
     try:
-        with open ('decrypted_file.txt', 'w') as data:
-            data.write(decryptedContent)
-    except IOError as er:
-        print ("File Error: " + str(er))
+        with open ('decrypted_file.pickle', 'wb') as data1:
+            pickle.dump(decryptedContent, data1)
+    except pickle.PickleError as pk1:
+        print ("File Error: " + str(pk1))
     
     return decryptedContent
