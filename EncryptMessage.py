@@ -3,7 +3,7 @@
 '''
 
 #import the necessary files
-import sys, ReadFromFile
+import sys, pickle, ReadFromFile
 
 DEFAULT = 128           #default block size
 BYTE_SIZE = 256         #One byte has 256 different values according to ASCII
@@ -65,9 +65,9 @@ def Encrypt(message, filename, keyFile, blockSize = DEFAULT):
     
     #write the encrypted message to a file
     try:
-        with open(filename, 'w') as data:
-            data.write(encrypted_content)
-    except IOError as err:
-        print ("File Error: " + str(err))
+        with open(filename, 'wb') as encrpM:
+            pickle.dump(encrypted_content, encrpM)
+    except pickle.PickleError as pk:
+        print ("File Error: " + str(pk))
 
     return encrypted_content
