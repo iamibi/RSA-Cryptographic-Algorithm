@@ -9,13 +9,13 @@
 '''
 
 #import the necessary files
-import random, GeneratePrime, MathematicalCalculation, sys, os
+import random, GeneratePrime, MathematicalCalculation, sys, os, pickle
 
 def main():
     print ("RSA Key Genarating...")
     key_file_name = input("Enter the starting name of the key file (Eg: key_file): ")
     makeKey(key_file_name, 1024)       #Key size is 1024-bits and name starts with key_file
-    print ("Keyfile made...")
+    print ("Keyfiles made...")
 
 def generateKey(keySize):
     print ("Generating p...")
@@ -45,34 +45,40 @@ def generateKey(keySize):
 
 '''
     This function writes the key to a file.
-    Public key to key_file_pubkey.txt
-    Private key to key_file_privkey.txt
+    Public key to key_file_pubkey.pickle
+    Private key to key_file_privkey.pickle
 '''
 def makeKey(name, keySize):
     try:
         #if the files already exist, generate error and exit
-        if os.path.exists('%s_pubkey.txt'%(name)) or os.path.exists('%s_privkey.txt'%(name)):
+        if os.path.exists('%s_pubkey.pickle'%(name)) or os.path.exists('%s_privkey.pickle'%(name)):
             sys.exit("The file name already exist. Either rename the file or remove and re-run the program")
         publicKey, privateKey = generateKey(keySize)        #Generate key pairs
         print ("The public key is of length %s and a %s digit number."%(len(str(publicKey[0])), len(str(publicKey[1]))))
-        print ("Writing it to public key file %s_pubkey.txt"%(name))
+        print ("Writing it to public key file %s_pubkey.pickle"%(name))
 
-        #Write the public key to key_file_pubkey.txt
+        #Write the public key to key_file_pubkey.pickle
         try:
-            with open ('%s_pubkey.txt'%(name), 'w') as data:
-                data.write('%s, %s, %s'%(keySize, publicKey[0], publicKey[1]))
-        except IOError as err:
-            print ("File Error: " + str(err))
+            with open ('%s_pubkey.pickle'%(name), 'wb') as data:
+                pickle.dump('%s, %s, %s'%(keySize, publicKey[0], publicKey[1]), data)
+        except pickle.PickleError as pk:
+            print ("File Error: " + str(pk))
         
         print ("The private key is of length %s and a %s digit number."%(len(str(privateKey[0])), len(str(privateKey[1]))))
-        print ("Writing it to private key file %s_privkey.txt"%(name))
+        print ("Writing it to private key file %s_privkey.pickle"%(name))
 
-        #Write the private key to key_file_privkey.txt
+        #Write the private key to key_file_privkey.pickle
         try:
-            with open ('%s_privkey.txt'%(name), 'w') as data:
-                data.write('%s, %s, %s'%(keySize, privateKey[0], privateKey[1]))
-        except IOError as er:
-            print ("File Error: " + str(er))
+            with open ('%s_privkey.pickle'%(name), 'wb') as data1:
+                pickle.dump('%s, %s, %s'%(keySize, privateKey[0], privateKey[1]), data1)
+        except pickle.PickleError as pk1:
+            print ("File Error: " + str(pk1))
+
+        try:
+            with open('key.pickle', 'wb') as data2:
+                pickle.dump('%s_pubkey.pickle,%s_privkey.pickle'%(name, name), data2)
+        except pickle.PickleError as pk2:
+            print ("File Error: " + str(pk2))
 
     except Exception as e:
         print ("Error: " + str(e))
