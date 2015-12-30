@@ -19,7 +19,6 @@ def main():
         sys.exit()
     
     KEY = KEY.split(',')
-    print (KEY)
     #if the user want to encrypt a message
     if mode[0] in 'E e'.split():
         dg = input("Do you want to digitally sign the message? [Yes/No]: ")
